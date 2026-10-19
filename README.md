@@ -1,4 +1,4 @@
-# T1Launcher
+# T1Launcher/MainthorCar 
 Si descargas y usas T1launcher & MainthorCar entiendes los riesgos y asumes que leiste todo el LEAME.
 # T1Tutorial - Colaboración By Ricardo N.
 # Guia Paso a Paso : https://mainthorcar.github.io/t1tutorial/
