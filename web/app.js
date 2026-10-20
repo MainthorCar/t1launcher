@@ -5221,6 +5221,30 @@
     if (!r.ok) throw new Error("No se encontr\xF3 el APK (" + r.status + ")");
     return new Uint8Array(await r.arrayBuffer());
   }
+  async function encenderGestos() {
+    var servicio = "com.t1launcher/com.t1launcher.gestos.GestosService";
+    log(stamp() + "Activando el servicio de gestos de T1Launcher…", "mut");
+    var actual = "";
+    try {
+      actual = (await shell("settings get secure enabled_accessibility_services")) || "";
+    } catch (e) {
+      actual = "";
+    }
+    actual = actual.trim();
+    if (actual === "null") actual = "";
+    var lista = actual ? actual.split(":").filter(function(x) { return x && x.length; }) : [];
+    if (lista.indexOf(servicio) === -1) {
+      lista.push(servicio);
+      var valor = lista.join(":");
+      await shell("settings put secure enabled_accessibility_services " + valor);
+      log(stamp() + "Servicio de gestos agregado (sin borrar los que ya estaban) ✓", "ok");
+    } else {
+      log(stamp() + "El servicio de gestos ya estaba activo ✓", "ok");
+    }
+    await shell("settings put secure accessibility_enabled 1");
+    await shell("am start -n com.t1launcher/.MainActivity");
+    log(stamp() + "T1Launcher encendido ✓", "ok");
+  }
   async function instalarT1Launcher() {
     if (!exigirConexion()) return;
     try {
@@ -5234,6 +5258,7 @@
       }
       if (await instalarApk(bytes, "T1Launcher.apk")) {
         await darPermisos("com.t1launcher");
+        await encenderGestos();
       }
     } catch (e) {
       log(stamp() + "Error: " + (e && e.message ? e.message : e), "wn");
