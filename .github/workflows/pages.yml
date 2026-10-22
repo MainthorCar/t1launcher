@@ -7,6 +7,9 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+  schedule:
+    # Red de seguridad: re-copia el último APK cada 6 horas por si se perdió el evento de "release publicada".
+    - cron: "0 */6 * * *"
 
 permissions:
   contents: read
