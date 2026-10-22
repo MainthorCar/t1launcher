@@ -4,12 +4,13 @@ name: Deploy T1 Puente Web
 on:
   push:
     branches: [main]
-  release:
-    types: [published]
   workflow_dispatch:
   schedule:
-    # Red de seguridad: re-copia el último APK cada 6 horas por si se perdió el evento de "release publicada".
-    - cron: "0 */6 * * *"
+    # Cada hora, desde main, re-copia el último APK (T1N más alto marcado como "Latest").
+    # Se hace por aquí y NO por el evento "release:published" porque ese deploy sale de la
+    # etiqueta de versión (refs/tags/T1Nxxx) y GitHub Pages solo publica desde la rama main,
+    # por lo que esos despliegues siempre fallaban en rojo.
+    - cron: "0 * * * *"
 
 permissions:
   contents: read
