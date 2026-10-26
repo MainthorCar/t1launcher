@@ -5216,6 +5216,20 @@
       log(stamp() + "Error: " + (e && e.message ? e.message : e), "wn");
     }
   }
+  async function enviarArchivoAuto(file, carpeta) {
+    if (!exigirConexion()) return;
+    try {
+      const nombre = file.name.replace(/[^A-Za-z0-9._-]/g, "_");
+      const ruta = carpeta.replace(/\/+$/, "") + "/" + nombre;
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      log(stamp() + "Enviando " + nombre + " (" + (bytes.length / 1048576).toFixed(1) + " MB) a " + carpeta + "…", "mut");
+      await pushArchivo(bytes, ruta);
+      log(stamp() + "Copiado ✓  →  " + ruta, "ok");
+      log(stamp() + "Abrilo en el auto con el File Manager (carpeta " + (carpeta.split("/").pop() || carpeta) + ").", "mut");
+    } catch (e) {
+      log(stamp() + "Error: " + (e && e.message ? e.message : e), "wn");
+    }
+  }
   async function bajarApk(url) {
     const r = await fetch(url);
     if (!r.ok) throw new Error("No se encontr\xF3 el APK (" + r.status + ")");
@@ -5448,6 +5462,15 @@
     $("installFile").addEventListener("click", () => {
       if (file.files && file.files[0]) instalarDesdeArchivo(file.files[0]);
       else log(stamp() + "Eleg\xED un APK primero.", "wn");
+    });
+    const fileAny = $("fileAny");
+    $("pickFile").addEventListener("click", () => fileAny.click());
+    fileAny.addEventListener("change", () => {
+      if (fileAny.files && fileAny.files[0]) $("fileName2").textContent = fileAny.files[0].name;
+    });
+    $("sendFile").addEventListener("click", () => {
+      if (fileAny.files && fileAny.files[0]) enviarArchivoAuto(fileAny.files[0], $("destFolder").value);
+      else log(stamp() + "Eleg\xED un archivo primero.", "wn");
     });
     $("permT1L").addEventListener("click", () => exigirConexion() && darPermisos("com.t1launcher"));
     $("permAurora").addEventListener("click", () => exigirConexion() && darPermisos("com.aurora.store.byd"));

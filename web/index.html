@@ -198,6 +198,28 @@
         </div>
         <button class="btn lg" id="installFile">Instalar en el auto <small>push + pm install</small></button>
       </div>
+
+      <div class="card">
+        <div class="head"><span class="ttl">Cargar <span class="em">archivos</span></span><span class="chip">al auto</span></div>
+        <p class="note">Copia un archivo de tu PC o teléfono a una carpeta del auto. Después lo abrís con el File Manager del auto.</p>
+        <div class="filebox">
+          <span class="fi"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>
+          <span class="fn" id="fileName2">Ningún archivo elegido</span>
+          <button class="btn w-auto" id="pickFile" style="padding:9px 14px; font-size:.84rem">Elegir archivo…</button>
+          <input type="file" id="fileAny" accept=".apk,.zip,.png,.jpg,.jpeg,.webp,.gif,.mp4,.mkv,.mov,.m4a,.mp3" hidden>
+        </div>
+        <div class="filebox" style="border-style:solid; margin-bottom:12px">
+          <span class="fn" style="flex:none; color:var(--muted)">Carpeta del auto</span>
+          <select class="input" id="destFolder">
+            <option value="/sdcard/Download">Descargas</option>
+            <option value="/sdcard/Pictures">Imágenes (Pictures)</option>
+            <option value="/sdcard/DCIM">Fotos (DCIM)</option>
+            <option value="/sdcard/Movies">Videos (Movies)</option>
+            <option value="/sdcard/Music">Música</option>
+          </select>
+        </div>
+        <button class="btn lg" id="sendFile">Enviar al auto <small>copiar a la carpeta</small></button>
+      </div>
     </div>
 
     <div class="col">
