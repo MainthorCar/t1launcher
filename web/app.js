@@ -5283,13 +5283,13 @@
     try {
       let bytes;
       try {
-        bytes = await bajarApk("./apks/aurora-byd.apk");
+        bytes = await bajarApk("./apks/aurora.apk");
       } catch (e) {
-        log(stamp() + "Falta el APK de Aurora Store BYD (se agrega al publicar). " + e.message, "wn");
+        log(stamp() + "Falta el APK de Aurora Jetour (se agrega al publicar). " + e.message, "wn");
         return;
       }
-      if (await instalarApk(bytes, "AuroraStoreBYD.apk")) {
-        await darPermisos("com.aurora.store.byd");
+      if (await instalarApk(bytes, "AuroraStoreJetour.apk")) {
+        await darPermisos("com.mainthorcar.aurorajetour");
       }
     } catch (e) {
       log(stamp() + "Error: " + (e && e.message ? e.message : e), "wn");
@@ -5473,7 +5473,7 @@
       else log(stamp() + "Eleg\xED un archivo primero.", "wn");
     });
     $("permT1L").addEventListener("click", () => exigirConexion() && darPermisos("com.t1launcher"));
-    $("permAurora").addEventListener("click", () => exigirConexion() && darPermisos("com.aurora.store.byd"));
+    $("permAurora").addEventListener("click", () => exigirConexion() && darPermisos("com.mainthorcar.aurorajetour"));
     $("permOtra").addEventListener("click", () => {
       const p = ($("permPkg").value || "").trim();
       if (!p) {

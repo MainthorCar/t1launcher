@@ -45,6 +45,20 @@ jobs:
             echo "Todavía no hay APK en Releases."
           fi
 
+      - name: Copiar el último Aurora Jetour (Release de MainthorCar/AuroraJetour)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p web/apks
+          rm -rf /tmp/aur && mkdir -p /tmp/aur
+          gh release download --repo MainthorCar/AuroraJetour --pattern "*.apk" --dir /tmp/aur || true
+          if ls /tmp/aur/*.apk >/dev/null 2>&1; then
+            cp "$(ls -S /tmp/aur/*.apk | head -1)" web/apks/aurora.apk
+            echo "Aurora copiado:"; ls -la web/apks
+          else
+            echo "Todavía no hay APK de Aurora Jetour en Releases."
+          fi
+
       - name: Preparar Pages
         uses: actions/configure-pages@v5
         with:
