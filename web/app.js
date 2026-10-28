@@ -5273,6 +5273,7 @@
       if (await instalarApk(bytes, "T1Launcher.apk")) {
         await darPermisos("com.t1launcher");
         await encenderGestos();
+        await contarJeturero();
       }
     } catch (e) {
       log(stamp() + "Error: " + (e && e.message ? e.message : e), "wn");
@@ -5413,6 +5414,33 @@
     $("appsOverlay").hidden = false;
     cargarApps();
   }
+  var CONTADOR_URL = "https://contador-t1puente.mainthorcar.workers.dev";
+  async function cargarJetureros() {
+    try {
+      var r = await fetch(CONTADOR_URL, { cache: "no-store" });
+      var d = await r.json();
+      var el = $("jetCount");
+      if (el && typeof d.total === "number") el.textContent = d.total;
+    } catch (e) {
+    }
+  }
+  async function contarJeturero() {
+    try {
+      if (localStorage.getItem("t1p-jet-contado")) return;
+    } catch (e) {
+    }
+    try {
+      var r = await fetch(CONTADOR_URL + "/sumar", { method: "POST" });
+      var d = await r.json();
+      try {
+        localStorage.setItem("t1p-jet-contado", "1");
+      } catch (e2) {
+      }
+      var el = $("jetCount");
+      if (el && typeof d.total === "number") el.textContent = d.total;
+    } catch (e) {
+    }
+  }
   function init() {
     try {
       const s = localStorage.getItem("t1p-theme");
@@ -5515,6 +5543,7 @@
       log("# T1 Puente Web v1.0 \u2014 listo.", "mut");
       log("# Enchuf\xE1 el auto por USB y toc\xE1 \xABConectar\xBB.", "mut");
     }
+    cargarJetureros();
   }
   init();
 })();
