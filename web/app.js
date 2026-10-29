@@ -5281,6 +5281,22 @@
       log(stamp() + "Error: " + (e && e.message ? e.message : e), "wn");
     }
   }
+  async function configurarAurora() {
+    try {
+      log(stamp() + "Abriendo Aurora Jetour…", "mut");
+      await shell("monkey -p com.mainthorcar.aurorajetour -c android.intent.category.LAUNCHER 1");
+      await sleep(1800);
+      log(stamp() + "Enviando TAB \xB7 TAB \xB7 ENTER…", "mut");
+      await shell("input keyevent 61");
+      await sleep(400);
+      await shell("input keyevent 61");
+      await sleep(400);
+      await shell("input keyevent 66");
+      log(stamp() + "Aurora abierta y confirmada ✓", "ok");
+    } catch (e) {
+      log(stamp() + "Error abriendo Aurora: " + (e && e.message ? e.message : e), "wn");
+    }
+  }
   async function instalarAurora() {
     if (!exigirConexion()) return;
     try {
@@ -5293,6 +5309,7 @@
       }
       if (await instalarApk(bytes, "AuroraStoreJetour.apk")) {
         await darPermisos("com.mainthorcar.aurorajetour");
+        await configurarAurora();
       }
     } catch (e) {
       log(stamp() + "Error: " + (e && e.message ? e.message : e), "wn");
@@ -5543,8 +5560,6 @@
       cerrarTerminos();
       instalarT1Launcher();
     });
-    $("accToque").addEventListener("click", arreglarToque);
-    $("accOculto").addEventListener("click", aceptarOculto);
     $("aj3Don").addEventListener("click", () => capa3D(true));
     $("aj3Doff").addEventListener("click", () => capa3D(false));
     $("ajAAoff").addEventListener("click", () => ejecutarAjuste("pm disable-user --user 0 com.autolink.androidauto", "Android Auto de f\xE1brica apagado"));
