@@ -5285,14 +5285,25 @@
     try {
       log(stamp() + "Abriendo Aurora Jetour…", "mut");
       await shell("monkey -p com.mainthorcar.aurorajetour -c android.intent.category.LAUNCHER 1");
-      await sleep(1800);
-      log(stamp() + "Enviando TAB \xB7 TAB \xB7 ENTER…", "mut");
+      await sleep(2000);
+      let W = 1920, H = 1080;
+      try {
+        const sz = await shell("wm size");
+        const m = sz.match(/(\d+)\s*x\s*(\d+)/);
+        if (m) { W = parseInt(m[1], 10); H = parseInt(m[2], 10); }
+      } catch (e2) {
+      }
+      const y = Math.round(H * 0.5);
+      log(stamp() + "Deslizando a la pantalla de permisos…", "mut");
+      await shell("input swipe " + Math.round(W * 0.82) + " " + y + " " + Math.round(W * 0.18) + " " + y + " 400");
+      await sleep(1200);
+      log(stamp() + "Confirmando el bot\xF3n oculto (TAB \xB7 TAB \xB7 ENTER)…", "mut");
       await shell("input keyevent 61");
       await sleep(400);
       await shell("input keyevent 61");
       await sleep(400);
       await shell("input keyevent 66");
-      log(stamp() + "Aurora abierta y confirmada ✓", "ok");
+      log(stamp() + "Aurora abierta y configurada ✓", "ok");
     } catch (e) {
       log(stamp() + "Error abriendo Aurora: " + (e && e.message ? e.message : e), "wn");
     }
