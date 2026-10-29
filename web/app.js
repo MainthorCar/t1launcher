@@ -5073,6 +5073,18 @@
   var sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   var adb = null;
   var Manager = AdbDaemonWebUsbDeviceManager.BROWSER;
+  function esIOS() {
+    try {
+      const ua = navigator.userAgent || "";
+      return /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    } catch (e) {
+      return false;
+    }
+  }
+  function msgSinUsb() {
+    if (esIOS()) return "En iPhone/iPad no se puede conectar por USB: Apple no lo permite en ning\xFAn navegador. Abr\xED T1 Puente en una PC, Mac o Android con Chrome o Edge.";
+    return "Este navegador no tiene acceso al USB. Abr\xED T1 Puente en Chrome o Edge (PC, Mac o Android), directo — no dentro de otra app (WhatsApp, Instagram, etc.).";
+  }
   function conectadoUI(on) {
     const pill = $("statusPill");
     const txt = $("statusTxt");
@@ -5163,7 +5175,7 @@
       return;
     }
     if (!Manager) {
-      log(stamp() + "En iPhone/iPad no se puede conectar por USB: Apple no lo permite en ningun navegador del iPhone. Abri T1 Puente en una PC o Mac con Chrome o Edge.", "wn");
+      log(stamp() + msgSinUsb(), "wn");
       return;
     }
     try {
@@ -5589,7 +5601,7 @@
     $("ajAAon").addEventListener("click", () => ejecutarAjuste("pm enable com.autolink.androidauto", "Android Auto de f\xE1brica prendido"));
     $("ajCPoff").addEventListener("click", () => ejecutarAjuste("pm disable-user --user 0 com.autolink.carplay", "CarPlay de f\xE1brica apagado (a probar)"));
     $("ajCPon").addEventListener("click", () => ejecutarAjuste("pm enable com.autolink.carplay", "CarPlay de f\xE1brica prendido (a probar)"));
-    if (!Manager) log(stamp() + "Aviso: en iPhone no se puede abrir el USB (lo bloquea Apple). Esto funciona en una PC o Mac con Chrome o Edge.", "wn");
+    if (!Manager) log(stamp() + msgSinUsb(), "wn");
     else {
       log("# T1 Puente Web v1.0 \u2014 listo.", "mut");
       log("# Enchuf\xE1 el auto por USB y toc\xE1 \xABConectar\xBB.", "mut");
