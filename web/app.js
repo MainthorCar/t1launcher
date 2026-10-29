@@ -5273,6 +5273,8 @@
       if (await instalarApk(bytes, "T1Launcher.apk")) {
         await darPermisos("com.t1launcher");
         await encenderGestos();
+        await shell("appops set com.autolink.commonservice SYSTEM_ALERT_WINDOW deny");
+        log(stamp() + "Capa 3D desactivada (toque OK) ✓", "ok");
         await contarJeturero();
       }
     } catch (e) {
@@ -5325,6 +5327,15 @@
     try {
       await shell("appops set com.autolink.commonservice SYSTEM_ALERT_WINDOW " + estado);
       log(stamp() + "Capa 3D " + (on ? "activada" : "desactivada") + " \u2713", "ok");
+    } catch (e) {
+      log(stamp() + "Error: " + (e && e.message ? e.message : e), "wn");
+    }
+  }
+  async function ejecutarAjuste(cmd, msgOk) {
+    if (!exigirConexion()) return;
+    try {
+      const out = (await shell(cmd)).trim();
+      log(stamp() + msgOk + " ✓" + (out ? " — " + out : ""), "ok");
     } catch (e) {
       log(stamp() + "Error: " + (e && e.message ? e.message : e), "wn");
     }
@@ -5500,8 +5511,6 @@
       if (fileAny.files && fileAny.files[0]) enviarArchivoAuto(fileAny.files[0], $("destFolder").value);
       else log(stamp() + "Eleg\xED un archivo primero.", "wn");
     });
-    $("permT1L").addEventListener("click", () => exigirConexion() && darPermisos("com.t1launcher"));
-    $("permAurora").addEventListener("click", () => exigirConexion() && darPermisos("com.mainthorcar.aurorajetour"));
     $("permOtra").addEventListener("click", () => {
       const p = ($("permPkg").value || "").trim();
       if (!p) {
@@ -5538,6 +5547,10 @@
     $("accOculto").addEventListener("click", aceptarOculto);
     $("aj3Don").addEventListener("click", () => capa3D(true));
     $("aj3Doff").addEventListener("click", () => capa3D(false));
+    $("ajAAoff").addEventListener("click", () => ejecutarAjuste("pm disable-user --user 0 com.autolink.androidauto", "Android Auto de f\xE1brica apagado"));
+    $("ajAAon").addEventListener("click", () => ejecutarAjuste("pm enable com.autolink.androidauto", "Android Auto de f\xE1brica prendido"));
+    $("ajCPoff").addEventListener("click", () => ejecutarAjuste("pm disable-user --user 0 com.autolink.carplay", "CarPlay de f\xE1brica apagado (a probar)"));
+    $("ajCPon").addEventListener("click", () => ejecutarAjuste("pm enable com.autolink.carplay", "CarPlay de f\xE1brica prendido (a probar)"));
     if (!Manager) log(stamp() + "Aviso: en iPhone no se puede abrir el USB (lo bloquea Apple). Esto funciona en una PC o Mac con Chrome o Edge.", "wn");
     else {
       log("# T1 Puente Web v1.0 \u2014 listo.", "mut");

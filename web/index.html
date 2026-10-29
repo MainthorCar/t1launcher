@@ -228,8 +228,6 @@
         <div class="head"><span class="ttl">Permisos</span><span class="chip">1 toque</span></div>
         <p class="note">Concede todos los permisos que la app pide, sin depender de ninguna página externa.</p>
         <div class="stack">
-          <button class="btn primary lg" id="permT1L">T1Launcher — permisos completos</button>
-          <button class="btn primary lg" id="permAurora">Aurora Store — permisos completos</button>
           <button class="btn" id="verApps">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
             Ver apps del dispositivo
@@ -278,7 +276,15 @@
             <button class="btn warnline" id="aj3Don">Capa 3D: activar</button>
             <button class="btn warnline" id="aj3Doff">Capa 3D: desactivar</button>
           </div>
-          <p class="note" style="margin:12px 0 0">Más ajustes (AA de fábrica, puente 5555, T1 AA) se agregan tras probarlos en el auto.</p>
+          <div class="btn-row" style="margin-top:10px">
+            <button class="btn warnline" id="ajAAoff">Android Auto fábrica: apagar</button>
+            <button class="btn warnline" id="ajAAon">Android Auto fábrica: prender</button>
+          </div>
+          <div class="btn-row" style="margin-top:10px">
+            <button class="btn warnline" id="ajCPoff">CarPlay fábrica: apagar</button>
+            <button class="btn warnline" id="ajCPon">CarPlay fábrica: prender</button>
+          </div>
+          <p class="note" style="margin:12px 0 0">CarPlay de fábrica está «a probar» (paquete <code>com.autolink.carplay</code>). Todo es reversible.</p>
         </div>
       </details>
     </div>
