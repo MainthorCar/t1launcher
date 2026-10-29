@@ -148,10 +148,27 @@
   .approw:hover{background:var(--surface-2); border-color:var(--accent)}
   [hidden]{display:none!important}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  #startScreen{position:fixed; inset:0; z-index:200; display:grid; place-items:center; text-align:center; padding:24px;
+    background:linear-gradient(color-mix(in srgb,var(--bg) 60%,transparent),color-mix(in srgb,var(--bg) 60%,transparent)), url("assets/wall.jpg") center/cover no-repeat, var(--bg)}
+  #startScreen .box{display:flex; flex-direction:column; align-items:center; gap:22px; max-width:420px; width:100%}
+  #startScreen img{width:96px; height:96px; border-radius:22px; box-shadow:0 10px 34px rgba(0,0,0,.45)}
+  #startScreen h1{margin:0; font-size:1rem; letter-spacing:.34em; color:var(--muted); font-weight:700; text-transform:uppercase}
+  #startBtn{width:100%; padding:20px 16px; font-size:1.25rem; letter-spacing:.16em}
+  .legend{font-size:.72rem; color:var(--faint); margin:10px 2px 0; line-height:1.45}
+  .legend b{color:var(--muted); font-weight:600}
 </style>
 </head>
 <body>
 <div class="wall" aria-hidden="true"></div>
+
+<div id="startScreen">
+  <div class="box">
+    <img src="assets/icon.jpg" alt="T1 Puente">
+    <h1>T1 Puente</h1>
+    <button class="btn primary lg" id="startBtn">T1PUENTE</button>
+  </div>
+</div>
+
 <div class="wrap">
   <header>
     <div class="brand">
@@ -180,6 +197,7 @@
           <button class="btn w-auto" id="run" style="padding:12px 18px">Ejecutar</button>
           <button class="btn ghost w-auto" id="wipe" style="padding:12px 16px">Limpiar</button>
         </div>
+        <p class="legend"><b>Uso avanzado.</b> Ejecutá comandos bajo tu propio riesgo — solo para usuarios experimentados.</p>
       </div>
 
       <div class="card">
@@ -198,6 +216,7 @@
           <input type="file" id="fileApk" accept=".apk" hidden>
         </div>
         <button class="btn lg" id="installFile">Instalar en el auto <small>push + pm install</small></button>
+        <p class="legend">Instalá solo APK de confianza. Una app maliciosa o incompatible puede dañar el sistema del auto. Lo hacés bajo tu responsabilidad.</p>
       </div>
 
       <div class="card">
@@ -309,6 +328,24 @@
     </div>
   </div>
 </div>
+<div class="overlay" id="legalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="legalTtl">
+    <h3 id="legalTtl">Antes de empezar</h3>
+    <p class="sub">Leé esto una vez</p>
+    <div class="terms">
+      <p><b>Qué es.</b> T1 Puente es una herramienta personal y gratuita que se comunica con el sistema de tu auto por USB. No está desarrollada ni avalada por Jetour, Chery ni ningún fabricante.</p>
+      <p><b>Bajo tu responsabilidad.</b> Todo lo que hagas con esta herramienta —ejecutar comandos, instalar aplicaciones, cambiar ajustes— lo hacés por tu cuenta y riesgo.</p>
+      <p><b>Instalar apps puede dañar el auto.</b> Instalar una aplicación desconocida, maliciosa o incompatible con el vehículo puede provocar fallas, reinicios, pérdida de configuraciones o de datos, comportamiento inesperado de funciones del auto y pérdida de la garantía. Instalá solo aplicaciones de confianza.</p>
+      <p><b>No es un sistema de seguridad.</b> No reemplaza espejos, cámaras, sensores ni la atención del conductor. No la operes mientras conducís.</p>
+      <p><b>Sin garantía y sin responsabilidad.</b> Se entrega "tal cual", sin garantía de ninguna clase. El autor no se responsabiliza por ningún daño al vehículo, a terceros o a la propiedad derivado de su uso.</p>
+      <p><b>Titularidad.</b> Declarás ser mayor de edad y propietario del vehículo, o contar con autorización del propietario.</p>
+    </div>
+    <div class="acts">
+      <button class="btn primary" id="legalOk">Entiendo y acepto</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="appsOverlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="appsTtl">
     <h3 id="appsTtl">Apps del dispositivo</h3>

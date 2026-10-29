@@ -5489,6 +5489,18 @@
     aplicarTema(temaActual());
     $("themeBtn").addEventListener("click", () => aplicarTema(temaActual() === "dark" ? "light" : "dark"));
     $("connect").addEventListener("click", conectar);
+    $("startBtn").addEventListener("click", () => {
+      $("startScreen").style.display = "none";
+      let ok = false;
+      try { ok = !!localStorage.getItem("t1p-legal-ok"); } catch (e) {
+      }
+      if (!ok) $("legalOverlay").hidden = false;
+    });
+    $("legalOk").addEventListener("click", () => {
+      try { localStorage.setItem("t1p-legal-ok", "1"); } catch (e) {
+      }
+      $("legalOverlay").hidden = true;
+    });
     $("run").addEventListener("click", ejecutar);
     $("cmd").addEventListener("keydown", (e) => {
       if (e.key === "Enter") ejecutar();
