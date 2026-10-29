@@ -5285,7 +5285,7 @@
     try {
       log(stamp() + "Abriendo Aurora Jetour…", "mut");
       await shell("monkey -p com.mainthorcar.aurorajetour -c android.intent.category.LAUNCHER 1");
-      await sleep(2000);
+      await sleep(4000);
       let W = 1920, H = 1080;
       try {
         const sz = await shell("wm size");
